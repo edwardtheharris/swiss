@@ -198,7 +198,9 @@ async def app(scope, receive, send):
                 await send(dirlist)
             except PermissionError as ex:
                 await send(gen_header(403))
-                await send(gen_text_response("Access to this resource is not allowed."))
+                await send(
+                    gen_text_response(f"Access to this resource is not allowed.\n{ex}")
+                )
                 return
             except Exception as ex:
                 await send(gen_header(500))
