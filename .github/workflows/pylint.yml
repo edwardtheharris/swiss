@@ -51,7 +51,7 @@ jobs:
       - name: Analysing the code with pylint
         run: |
           poetry env activate
-          pylint python/**/*.py >> pylint-${{ matrix.python-version }}.xml
+          poetry run pylint **/*.py >> pylint-${{ matrix.python-version }}.xml
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
