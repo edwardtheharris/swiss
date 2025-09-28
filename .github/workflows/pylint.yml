@@ -50,7 +50,6 @@ jobs:
           poetry install --all-extras
       - name: Analysing the code with pylint
         run: |
-          poetry env activate
           poetry run pylint **/*.py >> pylint-${{ matrix.python-version }}.xml
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
