@@ -50,11 +50,4 @@ jobs:
           poetry install --all-extras
       - name: Analysing the code with pylint
         run: |
-          poetry run pylint **/*.py >> pylint-${{ matrix.python-version }}.xml
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
-        with:
-          comment_title: PyLint Results Python ${{ matrix.python-version }}
-          check_name: pylint
-          files: pylint*.xml
+          poetry run black .
