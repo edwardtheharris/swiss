@@ -6,8 +6,9 @@ name = "pypi"
 [packages]
 pip = "*"
 pipenv = "*"
-uvicorn = "*"
 poetry = "*"
+uvicorn = "*"
+version-query = "*"
 
 [dev-packages]
 sphinx = "*"
