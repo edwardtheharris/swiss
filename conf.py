@@ -24,11 +24,11 @@ def get_release():
 
 
 author = "James Nugraha, Xander Harris"
-# autoyaml_root = "."
-# autoyaml_doc_delimiter = "###"
-# autoyaml_comment = "#"
-# autoyaml_level = 10
-# autoyaml_safe_loader = True
+autoyaml_root = "."
+autoyaml_doc_delimiter = "###"
+autoyaml_comment = "#"
+autoyaml_level = 10
+autoyaml_safe_loader = True
 copyright = "2024 (c) James Nugraha, Xander Harris. All rights reserved."
 
 # -- General configuration ---------------------------------------------------

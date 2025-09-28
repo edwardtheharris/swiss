@@ -5,8 +5,8 @@
 # For most Python projects PyLint is sufficient for ensuring legible code of
 # decent quality.
 #
-# ```{literalinclude} /.github/workflows/pylint.yml
-# :caption: .github/workflows/pylint.yml
+# ```{literalinclude} /.github/workflows/black.yml
+# :caption: .github/workflows/black.yml
 # :language: yaml
 # :start-at: "name: PyLint\n"
 # :end-before: "###\n"
@@ -25,8 +25,8 @@ on:
 # Define the jobs that run in the PyLint workflow. Might like to add some
 # reporting to the PR on the results from these at some point.
 #
-# ```{literalinclude} /.github/workflows/pylint.yml
-# :caption: .github/workflows/pylint.yml#jobs
+# ```{literalinclude} /.github/workflows/black.yml
+# :caption: .github/workflows/black.yml#jobs
 # :language: yaml
 # :start-at: "jobs:\n"
 # ```

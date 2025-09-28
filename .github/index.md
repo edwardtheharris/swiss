@@ -12,6 +12,7 @@ title: GitHub Actions configuration
 Stay away from zero days with Dependabot.
 
 ```{autoyaml} .github/dependabot.yml
+
 ```
 
 ## Workflows
@@ -24,13 +25,15 @@ run a lot of pipelines for free.
 This workflow produces the GitHub Pages site.
 
 ```{autoyaml} .github/workflows/documentation.yml
+
 ```
 
-### pylint
+### black
 
-I still like to run things through PyLint anyway.
+I still like to run things through black anyway.
 
-```{autoyaml} .github/workflows/pylint.yml
+```{autoyaml} .github/workflows/black.yml
+
 ```
 
 ### shell
@@ -38,4 +41,5 @@ I still like to run things through PyLint anyway.
 And ShellCheck never hurt anybody either.
 
 ```{autoyaml} .github/workflows/shell.yml
+
 ```
