@@ -23,16 +23,6 @@ def get_release():
     return ret_value
 
 
-def get_html_extra_paths():
-    """Get a list of files to be copied to the HTML output directory."""
-    ret_value = ["index.yaml", "charts/index.yaml"]
-    extra_paths = Path(".").glob("*.tgz")
-    for extra_path in extra_paths:
-        ret_value.append(str(extra_path))
-        ret_value.append(f"charts/{str(extra_path)}")
-    return ret_value
-
-
 author = "James Nugraha, Xander Harris"
 # autoyaml_root = "."
 # autoyaml_doc_delimiter = "###"
@@ -65,9 +55,8 @@ extensions = [
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
-html_extra_path = get_html_extra_paths()
-html_favicon = "_static/img/logo/helm.png"
-html_logo = "_static/img/logo/helm.png"
+html_favicon = "_static/img/logo/swiss.png"
+html_logo = "_static/img/logo/swiss.png"
 html_static_path = ["_static"]
 html_theme = "sphinx_book_theme"
 myst_dmath_double_inline = True
