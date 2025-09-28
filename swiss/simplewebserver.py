@@ -6,29 +6,27 @@ import multipart_stream
 
 args = None
 
-EMPTY_RESPONSE = {
-    'type': 'http.response.body',
-    'body': b''
-}
+EMPTY_RESPONSE = {"type": "http.response.body", "body": b""}
+
 
 def gen_header(status=200, content_type=None, custom_headers=[]):
-    obj = {
-        'type': 'http.response.start',
-        'status': status,
-        'headers': []
-    }
+    obj = {"type": "http.response.start", "status": status, "headers": []}
     if content_type is not None:
-        obj['headers'].extend([
-            [b'content-type', content_type.encode('UTF-8')],
-            [b'Access-Control-Allow-Origin', b'*']
-        ])
-    obj['headers'].extend(custom_headers)
+        obj["headers"].extend(
+            [
+                [b"content-type", content_type.encode("UTF-8")],
+                [b"Access-Control-Allow-Origin", b"*"],
+            ]
+        )
+    obj["headers"].extend(custom_headers)
     return obj
 
 
 def gen_abs_path(scope, path):
     # default host value if not set in header
-    host = scope["server"][0] + (':' + str(scope["server"][1]) if scope["server"][1] != 80 else "")
+    host = scope["server"][0] + (
+        ":" + str(scope["server"][1]) if scope["server"][1] != 80 else ""
+    )
     # look for host header
     for header in scope["headers"]:
         if header[0].decode() == "host":
@@ -37,11 +35,9 @@ def gen_abs_path(scope, path):
 
     return f'{scope["scheme"]}://{host}{path}'
 
+
 def gen_text_response(message):
-    return {
-        'type': 'http.response.body',
-        'body': message.encode('UTF-8')
-    }
+    return {"type": "http.response.body", "body": message.encode("UTF-8")}
 
 
 def human_size(size):
@@ -97,21 +93,28 @@ def create_dir_list_page(scdiriter, pwd):
                 size = f.stat().st_size
             except:
                 size = -1
-            files[f.name] = (f.path[1:], size,)
+            files[f.name] = (
+                f.path[1:],
+                size,
+            )
         pass
     scdiriter.close()
 
     # we use list for quicker concat. this is akin to stringbuilder.
     retarr = [template_begin]
     # go up!
-    if pwd != '/':
-        parentpath = os.path.normpath(os.path.join(pwd, '..'))
-        retarr.append(f'<tr><td><a href="{parentpath}">Up One Level</a></td><td></td></tr>')
+    if pwd != "/":
+        parentpath = os.path.normpath(os.path.join(pwd, ".."))
+        retarr.append(
+            f'<tr><td><a href="{parentpath}">Up One Level</a></td><td></td></tr>'
+        )
     # directories first, then files
     for dir, md in dirs.items():
         retarr.append(f'<tr><td><a href="{md[0]}">{dir}</a></td><td>(dir)</td></tr>')
     for file, md in files.items():
-        retarr.append(f'<tr><td><a href="{md[0]}">{file}</a></td><td>{human_size(md[1])}</td></tr>')
+        retarr.append(
+            f'<tr><td><a href="{md[0]}">{file}</a></td><td>{human_size(md[1])}</td></tr>'
+        )
     retarr.append(template_end)
 
     return "".join(retarr)
@@ -119,24 +122,22 @@ def create_dir_list_page(scdiriter, pwd):
 
 async def download_file(path, send):
     buffsz = 262144
-    buff = b''
+    buff = b""
     try:
-        with open(path, 'rb') as fh:
+        with open(path, "rb") as fh:
             filesize = os.fstat(fh.fileno()).st_size
             aux_header = []
             if filesize > 0:
-                aux_header.append([b'content-length', str(filesize).encode('UTF-8')])
+                aux_header.append([b"content-length", str(filesize).encode("UTF-8")])
             await send(gen_header(200, "application/octet-stream", aux_header))
             while True:
                 buff = fh.read(buffsz)
                 if len(buff) <= 0:
                     await send(EMPTY_RESPONSE)
                     break
-                await send({
-                    'type': 'http.response.body',
-                    'body': buff,
-                    'more_body': True
-                })
+                await send(
+                    {"type": "http.response.body", "body": buff, "more_body": True}
+                )
     except PermissionError as ex:
         await send(gen_header(403))
         await send(gen_text_response(str(ex)))
@@ -147,17 +148,17 @@ async def download_file(path, send):
 
 async def upload_file(canopath, path, scope, send, receive):
     try:
-        with multipart_stream.MultipartStream(scope, path, b'data') as msreader:
+        with multipart_stream.MultipartStream(scope, path, b"data") as msreader:
             more_body = True
             while more_body:
                 msg = await receive()
                 # debug
-                body = msg.get('body', b'')
+                body = msg.get("body", b"")
                 print(f"Received chunk size: {len(body)} bytes.")
                 msreader.add_chunk(body)
-                more_body = msg.get('more_body', False)
+                more_body = msg.get("more_body", False)
             # tell the client to refresh the page using GET!
-            redir_hdr = [[b'location', gen_abs_path(scope, canopath).encode('UTF-8')]]
+            redir_hdr = [[b"location", gen_abs_path(scope, canopath).encode("UTF-8")]]
             await send(gen_header(303, custom_headers=redir_hdr))
             await send(EMPTY_RESPONSE)
     except PermissionError as ex:
@@ -172,16 +173,23 @@ async def upload_file(canopath, path, scope, send, receive):
 
 
 async def app(scope, receive, send):
-    assert scope['type'] == 'http'
-    canopath = os.path.normpath(scope['path'])
-    if scope['path'] != canopath:
-        await send(gen_header(301, custom_headers=[[b'location', gen_abs_path(scope, canopath).encode('UTF-8')]]))
+    assert scope["type"] == "http"
+    canopath = os.path.normpath(scope["path"])
+    if scope["path"] != canopath:
+        await send(
+            gen_header(
+                301,
+                custom_headers=[
+                    [b"location", gen_abs_path(scope, canopath).encode("UTF-8")]
+                ],
+            )
+        )
         await send(EMPTY_RESPONSE)
         return
 
-    path = '.' + canopath
+    path = "." + canopath
 
-    if scope['method'] in ('HEAD', 'GET'):
+    if scope["method"] in ("HEAD", "GET"):
         if os.path.isdir(path):
             try:
                 scan_iter = os.scandir(path)
@@ -201,7 +209,7 @@ async def app(scope, receive, send):
         else:
             await send(gen_header(404))
             await send(gen_text_response("Requested resource not found."))
-    elif scope['method'] == 'POST':
+    elif scope["method"] == "POST":
         if os.path.isdir(path):
             await upload_file(canopath, path, scope, send, receive)
         else:
@@ -214,9 +222,13 @@ async def app(scope, receive, send):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="A simple static web server.")
-    parser.add_argument("--port", type=int, default=8080, help="Port number to listen to.")
-    parser.add_argument("--cwd", type=str, default='.', help="Base directory.")
-    parser.add_argument("--bind", type=str, default='0.0.0.0', help="IP address to bind to.")
+    parser.add_argument(
+        "--port", type=int, default=8080, help="Port number to listen to."
+    )
+    parser.add_argument("--cwd", type=str, default=".", help="Base directory.")
+    parser.add_argument(
+        "--bind", type=str, default="0.0.0.0", help="IP address to bind to."
+    )
     args = parser.parse_args()
     os.chdir(args.cwd)
     uvicorn.run(app, host=args.bind, port=args.port, log_level="info")
