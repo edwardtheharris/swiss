@@ -1,7 +1,7 @@
 [project]
 authors = [
-    {name = "James Nugraha", email = "james@aristanetworks.net"}
-    {name = "Xander Harris",email = "xandertheharris@gmail.com"}
+  { name = "James Nugraha", email = "james@aristanetworks.net" },
+  { name = "Xander Harris", email = "xandertheharris@gmail.com" },
 ]
 name = "swiss"
 version = "0.0.1"
@@ -9,8 +9,21 @@ description = "Simple web server implementation something SWISS"
 license = { text = "MIT" }
 readme = "readme.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = ["version-query (>=1.7.0,<2.0.0)"]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "sphinx (>=8.2.3,<9.0.0)",
+    "sphinx-copybutton (>=0.5.2,<0.6.0)",
+    "sphinx-autobuild (>=2025.8.25,<2026.0.0)",
+    "pytest (>=8.4.2,<9.0.0)",
+    "black (>=25.9.0,<26.0.0)",
+    "pylint (>=3.3.8,<4.0.0)",
+    "myst-parser[linkify] (>=4.0.1,<5.0.0)",
+    "sphinxcontrib-autoyaml (>=1.1.3,<2.0.0)",
+    "sphinx-book-theme (>=1.1.4,<2.0.0)"
+]

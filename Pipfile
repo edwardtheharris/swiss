@@ -9,8 +9,12 @@ pipenv = "*"
 poetry = "*"
 uvicorn = "*"
 version-query = "*"
+swiss = {file = ".", editable = true}
 
 [dev-packages]
 sphinx = "*"
 sphinx-autobuild = "*"
 sphinx-copybutton = "*"
+sphinxcontrib-autoyaml = "*"
+myst-parser = {extras = ["linkify"], version = "*"}
+sphinx-book-theme = "*"

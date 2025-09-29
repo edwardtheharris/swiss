@@ -1,0 +1,53 @@
+###
+# ```{rubric} PyLint
+# ```
+# ---
+# For most Python projects PyLint is sufficient for ensuring legible code of
+# decent quality.
+#
+# ```{literalinclude} /.github/workflows/black.yml
+# :caption: .github/workflows/black.yml
+# :language: yaml
+# :start-at: "name: PyLint\n"
+# :end-before: "###\n"
+# ```
+name: PyLint
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+###
+# ```{rubric} PyLint Jobs
+# ```
+# ---
+# Define the jobs that run in the PyLint workflow. Might like to add some
+# reporting to the PR on the results from these at some point.
+#
+# ```{literalinclude} /.github/workflows/black.yml
+# :caption: .github/workflows/black.yml#jobs
+# :language: yaml
+# :start-at: "jobs:\n"
+# ```
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.13"] # , "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@main
+        with:
+          fetch-depth: 0
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@main
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip poetry
+          poetry install --all-extras
+      - name: Analysing the code with pylint
+        run: |
+          poetry run black .
