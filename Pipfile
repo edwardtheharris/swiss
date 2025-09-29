@@ -9,6 +9,7 @@ pipenv = "*"
 poetry = "*"
 uvicorn = "*"
 version-query = "*"
+swiss = {file = ".", editable = true}
 
 [dev-packages]
 sphinx = "*"

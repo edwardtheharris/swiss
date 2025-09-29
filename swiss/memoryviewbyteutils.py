@@ -1,12 +1,24 @@
+"""Utilities for viewing memory bytes."""
+
+
 class MemoryViewWrapper:
+    """MemoryViewWrapper instance creator."""
+
     def __init__(self, ba, slice=None):
-        if type(ba) == bytes:
+        """Initialize a MemoryViewWrapper object.
+
+        :param ba:
+        :param slace:
+        :raises ValueError:
+        :raises TypeError:
+        """
+        if isinstance(ba, bytes):
             self.obj = memoryview(ba)
             self._slice = (0, len(ba))
             if slice is not None:
                 raise ValueError("Cannot assign slice here.")
-        elif type(ba) == memoryview:
-            self.obj = ba
+            elif isinstance(ba, memoryview):
+                self.obj = ba
             self._slice = slice
         else:
             raise TypeError("Expected a bytes object.")
@@ -46,6 +58,7 @@ class MemoryViewWrapper:
         return self.obj.obj[self._slice[0] : self._slice[1]]
 
     def find(self, substr, start=None, end=None):
+        """Find the result of a search."""
         if (start is not None and start < 0) or (end is not None and end < 0):
             raise ValueError("Bounding indices must not be a negative.")
         result = self.obj.obj.find(
@@ -56,6 +69,7 @@ class MemoryViewWrapper:
         return result if result < 0 else result - self._slice[0]
 
     def split(self, delim):
+        """Split a memory view by a delimiter."""
         ret = []
         start = 0
         while True:

@@ -9,8 +9,11 @@ https://www.sphinx-doc.org/en/master/usage/configuration.html#project-informatio
 """
 
 # pylint: disable=invalid-name,redefined-builtin
+import sys
 from pathlib import Path
 import version_query
+
+sys.path.insert(0, str(Path(".", "swiss").resolve()))
 
 
 def get_release():
@@ -24,6 +27,7 @@ def get_release():
 
 
 author = "James Nugraha, Xander Harris"
+audodoc_default_options = {"members": True}
 autoyaml_root = "."
 autoyaml_doc_delimiter = "###"
 autoyaml_comment = "#"
