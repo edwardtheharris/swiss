@@ -1,8 +1,7 @@
 from enum import Enum, auto
-import re
 import os
 import time
-from memoryviewbyteutils import MemoryViewWrapper
+from swiss.memoryviewbyteutils import MemoryViewWrapper
 
 
 class _States(Enum):
