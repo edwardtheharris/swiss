@@ -2,7 +2,7 @@ import uvicorn
 import argparse
 import os
 import collections
-import multipart_stream
+from swiss import multipart_stream
 
 args = None
 
@@ -222,7 +222,7 @@ async def app(scope, receive, send):
         await send(EMPTY_RESPONSE)
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description="A simple static web server.")
     parser.add_argument(
         "--port", type=int, default=8080, help="Port number to listen to."
@@ -234,3 +234,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     os.chdir(args.cwd)
     uvicorn.run(app, host=args.bind, port=args.port, log_level="info")
+
+
+if __name__ == "__main__":
+    main()
