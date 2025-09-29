@@ -16,3 +16,4 @@ sphinx = "*"
 sphinx-autobuild = "*"
 sphinx-copybutton = "*"
 sphinxcontrib-autoyaml = "*"
+myst-parser = {extras = ["linkify"], version = "*"}
