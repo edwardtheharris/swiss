@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "49d5fbf79188efef07334a5974404b1166afcc59c52a0e0942ddb7448d350a0b"
+            "sha256": "bdcfa963509ba1ad24390a03151ddbce54e1b7ff62ff6172d9f28ecf741841f8"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -627,11 +627,12 @@
         },
         "poetry-core": {
             "hashes": [
-                "sha256:97e50d8593c8729d3f49364b428583e044087ee3def1e010c6496db76bd65ac5",
-                "sha256:bdfce710edc10bfcf9ab35041605c480829be4ab23f5bc01202cfe5db8f125ab"
+                "sha256:f6da8f021fe380d8c9716085f4dcc5d26a5120a2452e077196333892af5de307",
+                "sha256:fc42f3854e346e4b96fb2b38d29e6873ec2ed25fbd7b8f1afba06613a966eaef"
             ],
-            "markers": "python_version >= '3.9' and python_version < '4.0'",
-            "version": "==2.2.1"
+            "index": "pypi",
+            "markers": "python_version >= '3.10' and python_version < '4.0'",
+            "version": "==2.3.0"
         },
         "pycparser": {
             "hashes": [
